@@ -103,6 +103,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         println("------${setString()}")
+        println("------test git xxxxx")
 
     }
     fun setString(str:String? = "set string to"):String{
