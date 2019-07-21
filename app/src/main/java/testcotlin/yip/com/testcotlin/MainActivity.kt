@@ -1,5 +1,6 @@
 package testcotlin.yip.com.testcotlin
 //import testcotlin.yip.com.test.test
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -11,7 +12,14 @@ import android.view.ViewGroup
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 import testcotlin.yip.com.test.test
+import java.io.File
 import java.util.zip.Inflater
+import android.support.v4.content.FileProvider.getUriForFile
+import android.content.pm.PackageManager
+
+
+
+
 
 //import kotlinx.android.synthetic.main.<layout>.*
 class MainActivity : AppCompatActivity() {
@@ -105,7 +113,21 @@ class MainActivity : AppCompatActivity() {
         println("------${setString()}")
         println("------test git xxxxx")
         println("------test git xxxxx")
-
+        val imagePath = File(filesDir, "images")
+        val newFile = File(imagePath, "1.pdf")
+        val contentUri = getUriForFile(context as Activity, BuildConfig.APPLICATION_ID+".fileprovider", newFile)
+        println("------contentUri = "+contentUri)
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            setDataAndType(contentUri,"application/pdf")
+        }
+        val pm = getPackageManager()
+        if (intent.resolveActivity(pm) != null) {
+            println("------resolveActivity not null")
+        }else{
+            println("------resolveActivity  null")
+        }
+        startActivity(intent);
     }
     fun setString(str:String? = "set string to"):String{
         return str as String
